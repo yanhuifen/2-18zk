@@ -3,6 +3,7 @@ var sass = require('gulp-sass'); //编译sass
 var minjs = require('gulp-uglify'); //编译js
 var server = require('gulp-webserver'); //编译js
 var mincss = require('gulp-clean-css'); //压缩css
+var concat = require('gulp-concat'); //压缩css
 //编译sass
 gulp.task('bysass', function() {
     return gulp.src('./src/scss/**/*.scss')
@@ -30,6 +31,12 @@ gulp.task('minjs', function() {
         .pipe(minjs())
         .pipe(gulp.dest('./dist/js'))
 });
+//合并js
+gulp.task('concatjs', function() {
+    return gulp.src('./src/**/*.js')
+        .pipe(concat('all.js'))
+        .pipe(gulp.dest('./dist/'));
+});
 //压缩css
 gulp.task('mincss', function() {
     return gulp.src('./src/css/**/*.css')
@@ -37,4 +44,4 @@ gulp.task('mincss', function() {
         .pipe(gulp.dest('./dist/css'))
 });
 //上线
-gulp.task('build', gulp.series('minjs', 'mincss'))
+gulp.task('build', gulp.series('minjs', 'mincss', 'concatjs'))
